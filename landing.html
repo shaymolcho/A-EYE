@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A-EYE | AI-Powered Retail Companion</title>
+    <meta
+      name="description"
+      content="A-EYE blends barcode scanning, computer vision, and localized data to deliver instant product intelligence for Israeli shoppers, in-store or online."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0f172a;
+        --bg-alt: #1e293b;
+        --card: rgba(15, 23, 42, 0.75);
+        --card-border: rgba(148, 163, 184, 0.25);
+        --text: #e2e8f0;
+        --text-muted: #94a3b8;
+        --accent: #38bdf8;
+        --accent-muted: rgba(56, 189, 248, 0.15);
+        --accent-alt: #22d3ee;
+        --shadow: 0 20px 50px rgba(15, 23, 42, 0.45);
+        --radius-lg: 18px;
+        --radius-sm: 12px;
+        --max-width: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #172554 0%, #0f172a 45%);
+  color: var(--text);
+  min-height: 100%;
+}
+
+/* === Top Center Logo === */
+.hero-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;       /* פחות רווח מעל */
+  margin-bottom: 0;       /* ביטול רווח מתחת */
+  padding: 0;             /* שלא יתווסף רווח פנימי */
+}
+
+.hero-logo img {
+  width: clamp(300px, 60vw, 700px); /* מעט גדול יותר */
+  height: auto;
+  filter: drop-shadow(0 0 40px rgba(56, 189, 248, 0.6));
+  transition: transform 0.4s ease, filter 0.4s ease, opacity 0.8s ease;
+  opacity: 0;
+  animation: logoFadeIn 1.2s ease forwards;
+}
+
+
+.hero-logo img {
+  width: clamp(220px, 45vw, 600px);
+  height: auto;
+  filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.6));
+  transition: transform 0.4s ease, filter 0.4s ease, opacity 0.8s ease;
+  opacity: 0;
+  animation: logoFadeIn 1.2s ease forwards;
+}
+
+.hero-logo img:hover {
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 50px rgba(56, 189, 248, 0.8));
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 56px;
+      }
+
+      header .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      header .brand-logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 20px;
+        color: #0f172a;
+        box-shadow: 0 10px 30px rgba(34, 211, 238, 0.45);
+      }
+
+      header nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+      }
+
+      header nav a {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+
+      header nav a:hover {
+        color: var(--accent);
+      }
+
+      .hero {
+        display: grid;
+        gap: 32px;
+        padding: 48px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(37, 99, 235, 0.06));
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        box-shadow: var(--shadow);
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 4vw, 3.6rem);
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.05;
+      }
+
+      .hero p {
+        margin: 0;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .hero-actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 24px;
+        border-radius: 999px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .cta-primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+        color: #082f49;
+        box-shadow: 0 20px 40px rgba(56, 189, 248, 0.45);
+      }
+
+      .cta-secondary {
+        background: rgba(148, 163, 184, 0.12);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        color: var(--text);
+      }
+
+      .hero-actions a:hover {
+        transform: translateY(-2px);
+      }
+
+      section {
+        margin-top: 96px;
+      }
+
+      section h2 {
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+        margin-bottom: 32px;
+      }
+
+      .section-intro {
+        max-width: 680px;
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 28px;
+        margin-top: 40px;
+      }
+
+      .feature-card {
+        padding: 28px;
+        border-radius: var(--radius-sm);
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(14px);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(56, 189, 248, 0.45);
+      }
+
+      .feature-card h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 1.2rem;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .timeline {
+        border-left: 2px solid rgba(148, 163, 184, 0.35);
+        margin-top: 40px;
+        padding-left: 28px;
+        display: grid;
+        gap: 32px;
+      }
+
+      .timeline-item {
+        position: relative;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -41px;
+        top: 6px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.25);
+      }
+
+      .timeline-item h3 {
+        margin: 0 0 6px;
+        font-size: 1.18rem;
+      }
+
+      .timeline-item p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+
+      .media-callouts {
+        display: grid;
+        gap: 24px;
+        margin-top: 40px;
+      }
+
+      .media-slot {
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px dashed rgba(148, 163, 184, 0.35);
+        display: grid;
+        gap: 12px;
+      }
+
+      .media-slot span {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+      }
+
+      .media-slot h3 {
+        margin: 0;
+      }
+
+      .media-slot p {
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .contact-banner {
+        margin-top: 120px;
+        padding: 40px 36px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(14, 165, 233, 0.25));
+        border: 1px solid rgba(14, 165, 233, 0.45);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .contact-banner h2 {
+        margin: 0;
+      }
+
+      .contact-banner p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 540px;
+      }
+
+      .contact-banner a {
+        padding: 12px 22px;
+        background: rgba(15, 23, 42, 0.92);
+        color: var(--text);
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+
+      footer {
+        margin-top: 80px;
+        text-align: center;
+        color: rgba(148, 163, 184, 0.65);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        main {
+          padding: 64px 20px 96px;
+        }
+
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .hero {
+          padding: 36px;
+        }
+
+                section {
+          margin-top: 72px;
+        }
+      }
+
+      /* === Structure Section === */
+      .structure-section {
+        margin-top: 100px;
+        text-align: center;
+      }
+
+      .structure-section h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: var(--accent);
+      }
+
+      .structure-img {
+        width: 80%;
+        max-width: 900px;
+        border-radius: 16px;
+        box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+        transition: transform 0.3s ease;
+      }
+
+      .structure-img:hover {
+        transform: scale(1.03);
+      }
+
+      .structure-caption {
+        margin-top: 12px;
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* גלילה רכה */
+      html {
+        scroll-behavior: smooth;
+      }
+
+    </style>
+
+    </head>
+  <body>
+    <!-- ▼ לוגו למעלה במרכז -->
+    <div class="hero-logo">
+      <img src="A (13).png" alt="A-EYE Logo">
+    </div>
+    <!-- ▲ סוף אזור הלוגו -->
+
+    <main>
+      <header>
+        <div class="brand">
+          <div class="brand-logo">AE</div>
+          <div>
+            <div style="font-weight: 600; letter-spacing: 0.12em; font-size: 0.78rem;">
+              A-EYE
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.9rem;">
+              AI-Powered Retail Companion
+            </div>
+          </div>
+        </div>
+        <nav>
+  <a href="#features">Features</a>
+  <a href="#flow">How it works</a>
+  <a href="#media">Media</a>
+  <a href="#structure">The structure of the glasses</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+      </header>
+
+
+      <h1>Instant AI-powered vision for every moment.</h1>
+<p>
+  A-EYE Glasses combine computer vision, distance sensing, and intelligent audio feedback to
+  empower visually impaired users with real-time awareness. Beyond barcode decoding, the system
+  detects nearby and distant obstacles, recognizes texts and objects, and analyzes full visual
+  scenes to describe situations through natural speech - giving users eyes-free understanding of
+  their surroundings.
+</p>
+
+
+      <section id="features">
+        <h2>Why teams choose A-EYE</h2>
+        <p class="section-intro">
+          From prototype kiosks to full-scale retail deployments, A-EYE abstracts product discovery
+          into a unified, extensible experience. The engine is privacy-first, edge-ready, and fully
+          configurable for your datasets.
+        </p>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>AI product matching</h3>
+            <p>
+              Blend barcode data with image embeddings to recognize unlabeled or poorly catalogued
+              products in milliseconds.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Israeli market insight</h3>
+            <p>
+              Dedicated support for 729 barcodes, Hebrew naming conventions, regulatory tags, and
+              comparative pricing from local retailers.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Hardware ready</h3>
+            <p>
+              Raspberry Pi mode includes keypad navigation, Picamera2 capture, and tactile feedback.
+              Deploy on in-store kiosks or handhelds.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Accessibility-first</h3>
+            <p>
+              Dual-language speech output, configurable timeouts, and ergonomically tuned prompts keep
+              shoppers informed regardless of ability.
+            </p>
+          </article>
+          <article class="feature-card">
+      <h3>Close-range obstacle detection</h3>
+      <p>
+        Detects obstacles located near the user’s upper body using a short-range distance sensor,
+        providing immediate alerts for nearby hazards such as tables, shelves, or people.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <h3>Long-range obstacle detection</h3>
+      <p>
+        Utilizes a long-range sensor to identify obstacles several meters ahead, enabling safe
+        navigation and proactive awareness of upcoming barriers.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <h3>Real-time text reading (Text-to-Speech)</h3>
+      <p>
+        Reads any written text visible in front of the glasses - such as signs, labels, or menus -
+        using optical recognition and instant voice narration through the built-in speaker.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <h3>Object identification (Photo-to-Text-to-Speech)</h3>
+      <p>
+        Recognizes everyday objects captured by the camera and verbally announces their names and
+        categories, assisting users in understanding their surroundings.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <h3>Scene understanding and description</h3>
+      <p>
+        Analyzes captured images to describe the full visual scene - identifying people, objects,
+        and actions - allowing the user to hear a spoken explanation of what’s happening in front of them.
+      </p>
+    </article>
+        </div>
+      </section>
+
+      <section id="flow">
+  <h2>How A-EYE Glasses work</h2>
+  <p class="section-intro">
+    The A-EYE Glasses integrate computer vision, distance sensing, and intelligent voice feedback to guide visually impaired users safely and independently. Every component - from the camera to the laser sensors - collaborates in real time to interpret the environment and communicate it clearly through sound.
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <h3>1 · Sense & detect</h3>
+      <p>
+        Short- and long-range sensors continuously scan the user’s surroundings, identifying obstacles in both the near and far field to prevent collisions with the upper body.
+      </p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>2 · Capture & analyze</h3>
+      <p>
+        The built-in camera captures the environment and analyzes it with AI to recognize <strong>texts, barcodes, objects, and full visual scenes</strong>, providing rich contextual understanding.
+      </p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>3 · Describe & guide</h3>
+      <p>
+        Text, barcodes, and visual insights are instantly translated into speech through the onboard speaker, so users hear real-time descriptions and navigate confidently.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+      <section id="media">
+        <h2>Media & showcases</h2>
+        <p class="section-intro">
+          We are curating guided walkthroughs, implementation videos, and live demos. Bookmark this
+          space and check back as we publish new content.
+        </p>
+        <div class="media-callouts">
+          <div class="media-slot">
+            <span>Upcoming</span>
+            <h3>Product tour video</h3>
+            <p>
+              A narrated demo highlighting the full desktop experience, Raspberry Pi workflow, and end
+              user accessibility features.
+            </p>
+          </div>
+          <div class="media-slot">
+            <span>Planned</span>
+            <h3>Interactive screenshot gallery</h3>
+            <p>
+              High-resolution visuals showcasing the scanning UI, price comparison modules, and
+              customization settings.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="structure" class="structure-section">
+  <h2>The structure of the glasses</h2>
+  <img src="glasses_structure.png" alt="Structure of the A-EYE glasses" class="structure-img">
+  <p class="structure-caption">
+    Hardware setup of the A-EYE prototype - Raspberry Pi, laser and distance sensors, and control matrix.
+  </p>
+</section>
+
+<section id="contact" class="contact-banner">
+  <h2>Ready to explore A-EYE?</h2>
+  <p>
+    We are partnering with retailers, accessibility advocates, and technologists building the
+    next generation of point-of-sale experiences. Let us know how you’d like to collaborate.
+  </p>
+  <a href="https://github.com/GoldR0/a.eye/issues" target="_blank" rel="noopener">
+    Start the conversation
+  </a>
+</section>
+
+<footer>
+  © <span id="year"></span> A-EYE • Crafted with a privacy-first, edge-ready mindset.
+</footer>
+</main>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
+
+
